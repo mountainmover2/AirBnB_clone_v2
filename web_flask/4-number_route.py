@@ -2,6 +2,7 @@
 """ Starts a Flask web application """
 from flask import Flask
 app = Flask(__name__)
+app.url_map.strict_slashes = False
 
 
 @app.route('/')
@@ -23,6 +24,19 @@ def c_compliment(text):
     return 'C %s' % message
 
 
+@app.route('/python/')
+@app.route('/python/<text>')
+def python_compliment(text='is_cool'):
+    """ Display a message starting with Python """
+    message = text.replace('_', ' ')
+    return 'Python %s' % message
+
+
+@app.route('/number/<int:n>')
+def display_integer(n):
+    """ Display n is a number only if n is an integer """
+    return "%d is a number" % n
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
-    app.url_map.strict_slashes = False
